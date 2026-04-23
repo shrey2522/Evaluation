@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const leaveController = require('../controllers/leaveController');
-router.get('/', leaveController.getAllLeaves);
-router.get('/user/:userId', leaveController.getUserLeaves);
-router.post('/', leaveController.applyLeave);
-router.patch('/:id/status', leaveController.updateLeaveStatus);
-router.delete('/:id', leaveController.cancelLeave);
+const { isLoggedIn } = require('../middleware/authMiddleware');
+
+
+router.get('/', isLoggedIn,leaveController.getAllLeaves);
+router.get('/user/:userId', isLoggedIn, leaveController.getUserLeaves);
+router.post('/', isLoggedIn, leaveController.applyLeave);
+router.patch('/:id/status', isLoggedIn, leaveController.updateLeaveStatus);
+router.delete('/:id', isLoggedIn, leaveController.cancelLeave);
 module.exports = router;
